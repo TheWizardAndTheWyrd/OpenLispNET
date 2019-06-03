@@ -14,6 +14,28 @@ namespace OpenLisp.Core.StaticClasses
     /// </summary>
     public static class Repl
     {
+        private static String _prompt = "wizard";
+
+        /// <summary>
+        /// Enable us to retrieve the default prompt value at any time.
+        /// </summary>
+        public static readonly String DefaultPrompt = _prompt;
+
+        /// <summary>
+        /// Get or set the REPL prompt.
+        /// </summary>
+        public static String Prompt
+        {
+            get
+            {
+                return _prompt;
+            }
+            set
+            {
+                _prompt = value;
+            }
+        }
+
         static void OnPrintEvent(object sender, PrintEventArgs e) => PrintEvent?.Invoke(sender, e);
         static void OnInputEvent(object sender, PrintEventArgs e) => InputEvent?.Invoke(sender, e);
 
@@ -457,7 +479,8 @@ namespace OpenLisp.Core.StaticClasses
                     try
                     {
                         // TODO: make user> reflect the current namespace.
-                        line = ReadLine.LineReader("user> ");                        
+                        //line = ReadLine.LineReader("user> ");
+                        line = ReadLine.LineReader(String.Format("{0}> ", Repl.Prompt));
                         if (line != null)
                         {
                             if (line == "")

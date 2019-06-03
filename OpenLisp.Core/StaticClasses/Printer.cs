@@ -34,10 +34,7 @@ namespace OpenLisp.Core.StaticClasses
         /// <param name="printReadably">If set to <c>true</c> print readably.</param>
         public static string Join(ConcurrentSkipList<OpenLispVal> values, string delim, bool printReadably)
         {
-            var vals = values.ToList().ToArray();
-            //values.CopyTo(vals, 0);
-
-            //Console.WriteLine("Attempting to pretty print vals={}", vals));
+            var vals = values.ToList().ToArray();           
 
             return Join(vals, delim, printReadably);
         }

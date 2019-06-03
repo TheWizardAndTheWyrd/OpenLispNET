@@ -23,7 +23,7 @@ namespace OpenLisp.Core.DataTypes
     /// TODO: consider creating an Env state diff utility that actually performs 
     /// a diff on two JSON payloads.
     /// 
-    /// TODO: introduce memoization so that we can lazily evaulate Monadic 
+    /// TODO: introduce memoization so that we can lazily evaluate Monadic 
     /// functions while avoiding premature performance optimizations outside the
     /// scope of Monadic function memoization.
     /// </summary>

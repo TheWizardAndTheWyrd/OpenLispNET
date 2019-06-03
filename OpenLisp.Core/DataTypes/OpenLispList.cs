@@ -26,11 +26,15 @@ namespace OpenLisp.Core.DataTypes
         /// <summary>
         /// Get or Set the value of an <see cref="OpenLispList"/> instance.
         /// </summary>
-        public List<OpenLispVal> Value
+        new public List<OpenLispVal> Value
         {
             get
             {
-                if (_value == null) throw new OpenLispException("Value is null.");
+                //if (_value == null) throw new OpenLispException("Value is null.");
+                if (_value == null)
+                {
+                    _value = StaticOpenLispTypes.EmpyListOpenLispVal;
+                }
                 return _value;
             }
             set { _value = value; }

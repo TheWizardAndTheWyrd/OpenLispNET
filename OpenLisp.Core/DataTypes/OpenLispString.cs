@@ -1,5 +1,5 @@
 ﻿using OpenLisp.Core.AbstractClasses;
-using OpenLisp.Core.DataTypes.Errors.Throwable;
+using OpenLisp.Core.StaticClasses;
 
 namespace OpenLisp.Core.DataTypes
 {
@@ -13,11 +13,15 @@ namespace OpenLisp.Core.DataTypes
         /// <summary>
         /// Publicly Get or privately Set the non-null, non-empty, non-whitespace string.
         /// </summary>
-        public string Value
+        new public string Value
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(_value)) throw new OpenLispException("Value is null, empty, or white-space.");
+                //if (string.IsNullOrWhiteSpace(_value)) throw new OpenLispException("Value is null, empty, or white-space.");
+                if (string.IsNullOrWhiteSpace(_value))
+                {
+                    _value = StaticOpenLispTypes.Nil.ToString();
+                }
                 return _value;
             }
             private set { _value = value; }
@@ -30,6 +34,15 @@ namespace OpenLisp.Core.DataTypes
         public OpenLispString(string value)
         {
             Value = value;
+        }
+
+        /// <summary>
+        /// Constructor accepting a <see cref="OpenLispVal"/>
+        /// </summary>
+        /// <param name="value"></param>
+        public OpenLispString(OpenLispVal value)
+        {
+            Value = value.ToString();
         }
 
         /// <summary>
@@ -65,6 +78,15 @@ namespace OpenLisp.Core.DataTypes
                     .Replace("\n", "\\n") + "\"";
             }
             return Value;
+        }
+
+        /// <summary>
+        /// Return a new OpenLispInt from a OpenLispString.
+        /// </summary>
+        /// <param name="v"></param>
+        public static explicit operator OpenLispInt(OpenLispString v)
+        {
+            return new OpenLispInt(long.Parse(v.ToString(false)));
         }
     }
 }

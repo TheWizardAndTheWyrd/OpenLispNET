@@ -1,17 +1,40 @@
 OpenLisp.NET
-v0.0.1
+v0.0.4-alpha
 The Wizard & The Wyrd, LLC
 
-rev: September 19, 2015
+rev: February 8, 2019
 
 Vision
 ======
-"Create a modern portable LISP Machine using commodity hardware and OpenList.NET."
+`OpenLisp.NET` is envisioned to be a multi-purpose, high performance Lisp useful for
+high performance scripting in a .NET world.
+
+## OpenLisp Machine
+`"Create a modern portable LISP Machine using commodity hardware and OpenList.NET."`
 
 The goal of OpenLisp.NET is to form the basis of an OpenLisp.NET EMACS-like environment as the primary shell of an
 operating system created on CosmosOS (https://github.com/CosmosOS/Cosmos).  The target hardware for this project
 includes, as primary build targets, an NetDuino and RaspberryPI, and other tiny devices.  Amongst these devices,
 we will support virtual machines with the goal of creating a portable OpenLisp.NET operating system.
+
+## Portable Lisp as a Library
+`"Drop in a high performance Lisp as a NuGet Package"`
+
+This is fairly straight forward.  We want Lisp-with-REPL-as-package that is trivial to extend,
+and fun to hack on.  Imagine being able to have homiconic datastructures and abstractions in
+domains where `AI` is starting to come of age:
+  * Game Engines
+  * Web Services
+  * Expert Systems
+  * Machine Learning
+
+All of these domains, and more, benefit from the wild-eyed promises of Lisp for Artificial Intelligence.
+
+## Powerful Native Libraries
+"Portable Lisp as a Library capable of emitting .NET assemblies"
+
+It sure would be nice to finish the AST and assembly emitter.  Take well-known Lisp functions that have 
+become part of your standard library, and emit them as .NET assemblies usable by any .NET language and run-time.
 
 Summary
 =======
@@ -27,6 +50,143 @@ $ mono OpenLisp.Repl.exe
 user> (list? (skip-list 1 2 3))
 true
 user>
+
+user> (skip-list 1 2 "a" 3 "dd")
+(2 "dd" "a" 1 3)
+user>
+
+user> (docstring "a")
+("OpenLispVal is the abstract base type of all OpenLisp values.")
+
+user> (docstring 1)
+("OpenLispVal is the abstract base type of all OpenLisp values.")
+
+user> (docstring (+ 1 1))
+("OpenLispVal is the abstract base type of all OpenLisp values.")
+
+user> (docstring (- 1 1 1 1 1))
+("OpenLispVal is the abstract base type of all OpenLisp values.")
+
+user> ((- 1 1 1 1 1))
+Error: Unable to cast object of type 'OpenLisp.Core.DataTypes.OpenLispInt' to type 'OpenLisp.Core.DataTypes.OpenLispFunc'.
+   at OpenLisp.Core.StaticClasses.Repl.Eval(OpenLispVal originalAbstractSyntaxTree, Env environment) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 316
+   at OpenLisp.Core.StaticClasses.Repl.<>c__DisplayClass16_0.<ReplMain>b__0(String str) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 353
+   at OpenLisp.Core.StaticClasses.Repl.ReplMain(String[] arguments) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 484
+
+user> (- 1 1 1 1 1)
+-3
+
+user> (skip-list (- 1 1 1 1 1))
+(-3)
+
+user> (skip-list (- 1 1 1 1 1) (+ 1 2 3 (* 2 3))))
+(12 -3)
+
+user> (type 1)
+"OpenLisp.Core.DataTypes.OpenLispInt"
+
+user> (type (docstring 1))
+"OpenLisp.Core.DataTypes.OpenLispList"
+
+user> (type docstring 1)
+"OpenLisp.Core.DataTypes.OpenLispFunc"
+
+user> (type docstring)
+"OpenLisp.Core.DataTypes.OpenLispFunc"
+
+user> (type (skip-list 1 1 1))
+"OpenLisp.Core.DataTypes.Concurrent.OpenLispSkipList"
+
+user> (docstring skip-list)
+()
+user> (docstring (skip-list(1))
+Error: expected ')', got EOF
+   at OpenLisp.Core.Reader.ReadList(TokensReader reader, OpenLispList openLispList, Char start, Char end) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\Reader.cs:line 160
+   at OpenLisp.Core.Reader.ReadForm(TokensReader reader) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\Reader.cs:line 226
+   at OpenLisp.Core.Reader.ReadStr(String tokens) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\Reader.cs:line 244
+   at OpenLisp.Core.StaticClasses.Repl.Read(String str) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 37
+   at OpenLisp.Core.StaticClasses.Repl.<>c__DisplayClass16_0.<ReplMain>b__0(String str) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 353
+   at OpenLisp.Core.StaticClasses.Repl.ReplMain(String[] arguments) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 484
+user>
+
+user> (docstring skip-list)
+()
+
+user> (docstring (skip-list 1 1 1))
+("OpenLispSkipList implements a thread-safe skip-list that averages O(log(n))... usually.")
+user>
+
+user> (docstring skip-list)
+()
+
+user> (docstring (skip-list 1  1 1   1 ))
+()
+
+user> (m/type ())
+"OpenLisp.Core.DataTypes.OpenLispList"
+
+wizard> (m/prompt "lol")
+"lol"
+
+lol> (+ 1 1 1 )
+3
+
+lol> (m/prompt/d)
+"wizard"
+wizard>
+
+wizard> (* 1 2 3)
+6
+
+wizard> (/ 30 2 7)
+2
+
+wizard> (/ 30.0 2.0 7.0)
+Error: unrecognized '30.0'
+   at OpenLisp.Core.Reader.ReadAtom(TokensReader reader) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\Reader.cs:line 119
+   at OpenLisp.Core.Reader.ReadForm(TokensReader reader) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\Reader.cs:line 232
+   at OpenLisp.Core.Reader.ReadList(TokensReader reader, OpenLispList openLispList, Char start, Char end) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\Reader.cs:line 155
+   at OpenLisp.Core.Reader.ReadForm(TokensReader reader) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\Reader.cs:line 226
+   at OpenLisp.Core.Reader.ReadStr(String tokens) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\Reader.cs:line 244
+   at OpenLisp.Core.StaticClasses.Repl.Read(String str) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 59
+   at OpenLisp.Core.StaticClasses.Repl.<>c__DisplayClass21_0.<ReplMain>b__0(String str) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 375
+   at OpenLisp.Core.StaticClasses.Repl.ReplMain(String[] arguments) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 507
+wizard> 
+
+wizard> (hash-map 1 1)
+Error: Unable to cast object of type 'OpenLisp.Core.DataTypes.OpenLispInt' to type 'OpenLisp.Core.DataTypes.OpenLispString'.
+   at OpenLisp.Core.DataTypes.OpenLispHashMap.AssocBang(OpenLispList listValue) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\DataTypes\OpenLispHashMap.cs:line 124
+   at OpenLisp.Core.DataTypes.OpenLispHashMap..ctor(OpenLispList listValue) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\DataTypes\OpenLispHashMap.cs:line 82
+   at OpenLisp.Core.StaticClasses.CoreNameSpace.<>c.<get_Ns>b__9_12(OpenLispList x) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\CoreNameSpace.cs:line 191
+   at OpenLisp.Core.DataTypes.OpenLispFunc.Apply(OpenLispList args) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\DataTypes\OpenLispFunc.cs:line 135
+   at OpenLisp.Core.StaticClasses.Repl.Eval(OpenLispVal originalAbstractSyntaxTree, Env environment) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 347
+   at OpenLisp.Core.StaticClasses.Repl.<>c__DisplayClass21_0.<ReplMain>b__0(String str) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 375
+   at OpenLisp.Core.StaticClasses.Repl.ReplMain(String[] arguments) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 507
+
+wizard> (skip-list 1 (+ 1 1 1 1 1 1))
+(6 1)
+
+wizard> (skip-list (+ 1 1 1 1 1 1) 1)
+(1 6)
+
+wizard> (hash-map )
+{}
+
+wizard> (hash-map nil nil)
+Error: Unable to cast object of type 'OpenLisp.Core.DataTypes.OpenLispConstant' to type 'OpenLisp.Core.DataTypes.OpenLispString'.
+   at OpenLisp.Core.DataTypes.OpenLispHashMap.AssocBang(OpenLispList listValue) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\DataTypes\OpenLispHashMap.cs:line 128
+   at OpenLisp.Core.DataTypes.OpenLispHashMap..ctor(OpenLispList listValue) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\DataTypes\OpenLispHashMap.cs:line 83
+   at OpenLisp.Core.StaticClasses.CoreNameSpace.<>c.<get_Ns>b__9_12(OpenLispList x) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\CoreNameSpace.cs:line 191
+   at OpenLisp.Core.DataTypes.OpenLispFunc.Apply(OpenLispList args) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\DataTypes\OpenLispFunc.cs:line 135
+   at OpenLisp.Core.StaticClasses.Repl.Eval(OpenLispVal originalAbstractSyntaxTree, Env environment) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 347
+   at OpenLisp.Core.StaticClasses.Repl.<>c__DisplayClass21_0.<ReplMain>b__0(String str) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 375
+   at OpenLisp.Core.StaticClasses.Repl.ReplMain(String[] arguments) in C:\src\dotnet\OpenLispNET\OpenLisp.Core\StaticClasses\Repl.cs:line 507
+
+wizard> (hash-map "nil" nil)
+{"nil" nil}
+
+wizard> (hash-map "nil" nil "nil" "lol")
+{"nil" "lol"}
 ```
 
 Why another LISP?

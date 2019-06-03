@@ -2,6 +2,8 @@
 using System.Linq;
 using OpenLisp.Core.AbstractClasses;
 using OpenLisp.Core.DataTypes.Errors.Throwable;
+using OpenLisp.Core.StaticClasses;
+using System;
 
 namespace OpenLisp.Core.DataTypes
 {
@@ -10,20 +12,19 @@ namespace OpenLisp.Core.DataTypes
     /// </summary>
     public class OpenLispHashMap : OpenLispVal
     {
-        private Dictionary<string, OpenLispVal> _value;
+        private Dictionary<String, OpenLispVal> _value;
 
         private Dictionary<OpenLispString, OpenLispVal> _secondaryFormValue = null;
 
         /// <summary>
         /// Get and Set the Value.
         /// </summary>
-        public Dictionary<string, OpenLispVal> Value
+        new public Dictionary<String, OpenLispVal> Value
         {
             get
             {
-                // TODO: should this return StaticOpenLispTypes.Nil if _value == null?
                 if (_value == null)
-                    throw new OpenLispException("Value is null.");
+                    _value = StaticOpenLispTypes.EmptyDictionary;
                 return _value;
             }
             private set { _value = value; }
@@ -36,9 +37,8 @@ namespace OpenLisp.Core.DataTypes
         {
             get
             {
-                // TODO: should this return STaticOpenLispTypes.Nil if _value == null?
                 if (_secondaryFormValue == null)
-                    throw new OpenLispException("SecondaryValue is null.");
+                    _secondaryFormValue = StaticOpenLispTypes.EmptySecondaryDictionary;
                 return _secondaryFormValue;
             }
             private set { _secondaryFormValue = value; }
@@ -117,8 +117,11 @@ namespace OpenLisp.Core.DataTypes
         {
             for (int i = 0; i < listValue.Size; i += 2)
             {
-                Value[((OpenLispString)listValue[i]).Value] = listValue[i + 1];
-                //Value.SetItem(((OpenLispString)listValue[i]).Value, listValue[i + 1]);
+                //Value[(String)(listValue[i]).Value] = listValue[i + 1];
+
+                // TODO: everything should be explicitly castable to OpenLispVal.
+                ////Value.SetItem(((OpenLispString)listValue[i]).Value, listValue[i + 1]);
+                Value[((OpenLispString)listValue[i]).Value] = listValue[i + 1];            
             }
 
             return this;

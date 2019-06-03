@@ -1,11 +1,13 @@
 ﻿using System;
 using OpenLisp.Core.DataTypes;
+using OpenLisp.Core.Attributes;
 
 namespace OpenLisp.Core.AbstractClasses
 {
     /// <summary>
     /// Base class used inherited by all valid language contructs and primitives in OpenLisp.NET
     /// </summary>
+    [DocString("OpenLispVal is the abstract base type of all OpenLisp values.")]
     public abstract class OpenLispVal : IComparable
     {
         private OpenLispVal _meta;
@@ -18,6 +20,11 @@ namespace OpenLisp.Core.AbstractClasses
             get { return _meta; }
             set { _meta = value; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual OpenLispVal Value { get; internal set; }
 
         /// <summary>
         /// Performs a memberwise clone of an <see cref="OpenLispVal"/> instance.
@@ -81,6 +88,16 @@ namespace OpenLisp.Core.AbstractClasses
         public static explicit operator OpenLispVal(int v)
         {
             return new OpenLispInt(v);
+        }
+
+        /// <summary>
+        /// String operator
+        /// </summary>
+        /// <param name="v"></param>
+        public static explicit operator String(OpenLispVal v)
+        {
+            v.Value = v;
+            return v.ToString();
         }
     }
 }

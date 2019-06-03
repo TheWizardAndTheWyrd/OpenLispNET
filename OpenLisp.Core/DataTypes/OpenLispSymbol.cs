@@ -1,5 +1,6 @@
 ﻿using OpenLisp.Core.AbstractClasses;
 using OpenLisp.Core.DataTypes.Errors.Throwable;
+using OpenLisp.Core.StaticClasses;
 
 namespace OpenLisp.Core.DataTypes
 {
@@ -13,11 +14,15 @@ namespace OpenLisp.Core.DataTypes
         /// <summary>
         /// Publicly Get or privately Set the <see cref="string"/> value of an <see cref="OpenLispSymbol"/>.
         /// </summary>
-        public string Value
+        new public string Value
         {
             get
             {
                 //if (string.IsNullOrWhiteSpace(_value)) throw new OpenLispException("Value is null, empty, or white-space.");
+                if (string.IsNullOrWhiteSpace(_value))
+                {
+                    _value = StaticOpenLispTypes.Nil.ToString();
+                }
                 return _value;
             }
             private set { _value = value; }

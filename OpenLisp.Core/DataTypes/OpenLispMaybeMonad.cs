@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace OpenLisp.Core.DataTypes
 {
+    // TODO: wizard beard meditation...
     public partial class OpenLispMonad<T> : IOpenLispMonad<OpenLispVal> where T : OpenLispVal
     {
         private static readonly MaybeMonad<T> _maybe = new MaybeMonad<T>();

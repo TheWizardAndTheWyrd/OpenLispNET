@@ -14,7 +14,7 @@ namespace OpenLisp.Core.DataTypes
         /// <summary>
         /// All <see cref="OpenLispInt"/> Values box <see cref="Int64"/> instances.
         /// </summary>
-        public Int64 Value
+        new public Int64 Value
         {
             get { return _value; }
             private set { _value = value; }
@@ -160,7 +160,25 @@ namespace OpenLisp.Core.DataTypes
         /// <param name="v"></param>
         public static explicit operator OpenLispString(OpenLispInt v)
         {
-            return new OpenLispString(v.ToString());
+            return new OpenLispString(v.ToString(false));
+        }
+
+        /// <summary>
+        /// Return a new OpenLispInt.
+        /// </summary>
+        /// <param name="v"></param>
+        public static explicit operator OpenLispInt(OpenLispString v)
+        {
+            return new OpenLispInt(long.Parse(v.ToString(false)));
+        }
+
+        /// <summary>
+        /// Returns a new string without pretty printing.
+        /// </summary>
+        /// <param name="v"></param>
+        public static explicit operator String(OpenLispInt v)
+        {
+            return (String)v.ToString(false);
         }
     }
 }

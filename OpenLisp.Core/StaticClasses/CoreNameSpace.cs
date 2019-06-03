@@ -8,6 +8,7 @@ using OpenLisp.Core.DataTypes;
 using OpenLisp.Core.StaticClasses.Funcs;
 using System.Diagnostics;
 using OpenLisp.Core.DataTypes.Concurrent;
+using OpenLisp.Core.Attributes;
 
 namespace OpenLisp.Core.StaticClasses
 {
@@ -151,9 +152,29 @@ namespace OpenLisp.Core.StaticClasses
                                                         return v;
                                                     })},
                                 {"*",           new OpenLispFunc(x =>
-                                                    (OpenLispInt)x[0] * (OpenLispInt)x[1])},
+                                                    //(OpenLispInt)x[0] * (OpenLispInt)x[1])},
+                                                    {
+                                                        var values = x.Value.ToArray();
+                                                        OpenLispInt v = new OpenLispInt(values[0]); // Subtract from first value...
+                                                        for (int i = 1; i < x.Value.ToArray().Length; i++) // ... starting with the second value.
+                                                        {
+                                                            Debug.WriteLine($"[{DateTime.Now}] x[{i}] = {x[i]}");
+                                                            v *= ((OpenLispInt)x[i]);
+                                                        }
+                                                        return v;
+                                                    })},
                                 {"/",           new OpenLispFunc(x =>
-                                                    (OpenLispInt)x[0] / (OpenLispInt)x[1])},
+                                                    //(OpenLispInt)x[0] / (OpenLispInt)x[1])},
+                                                    {
+                                                        var values = x.Value.ToArray();
+                                                        OpenLispInt v = new OpenLispInt(values[0]); // Subtract from first value...
+                                                        for (int i = 1; i < x.Value.ToArray().Length; i++) // ... starting with the second value.
+                                                        {
+                                                            Debug.WriteLine($"[{DateTime.Now}] x[{i}] = {x[i]}");
+                                                            v /= ((OpenLispInt)x[i]);
+                                                        }
+                                                        return v;
+                                                    })},
 
                                 {"time-ms",     NumberFuncs.TimeMs},
 
@@ -191,6 +212,10 @@ namespace OpenLisp.Core.StaticClasses
 
                                 {"with-meta",   MetadataFuncs.WithMeta},
                                 {"meta",        MetadataFuncs.Meta},
+                                {"m/docstring", MetadataFuncs.ReadDocString},
+                                {"m/type",      new OpenLispFunc(x => new OpenLispString(x[0].GetType().ToString()))},
+                                {"m/prompt/d",  new OpenLispFunc(x => (OpenLispVal)(Repl.Prompt = Repl.DefaultPrompt))},
+                                {"m/prompt",    new OpenLispFunc(x => (OpenLispVal)(Repl.Prompt = x[0].ToString(false)))},
 
                                 {"atom",        new OpenLispFunc(x => new OpenLispAtom(x[0]))},
                                 {"atom?",       AtomFuncs.AtomQ},

@@ -18,6 +18,7 @@ namespace OpenLisp.Core.DataTypes
 
         private OpenLispList _fparams;
 
+        // TODO: prove our macros work =)
         private bool _macro = false;
 
         /// <summary>

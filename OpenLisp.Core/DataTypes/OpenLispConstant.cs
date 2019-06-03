@@ -13,7 +13,7 @@ namespace OpenLisp.Core.DataTypes
         /// <summary>
         /// Get or Set the Value of this <see cref="OpenLispConstant"/>.
         /// </summary>
-        public string Value
+        new public string Value
         {
             get
             {

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OpenLisp.Core</RootNamespace>
     <AssemblyName>OpenLisp.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractClasses\OpenLispVal.cs" />
+    <Compile Include="Attributes\DocString.cs" />
+    <Compile Include="Attributes\RuntimeAttributeReader.cs" />
     <Compile Include="DataTypes\Errors\OpenLispContinue.cs" />
     <Compile Include="DataTypes\Errors\OpenLispError.cs" />
     <Compile Include="DataTypes\Errors\OpenLispThrowable.cs" />
@@ -107,6 +109,7 @@
     <Compile Include="Reader.cs" />
     <Compile Include="ReadLine.cs" />
     <Compile Include="StaticClasses\EvalProvider.cs" />
+    <Compile Include="StaticClasses\ExtensionMethods.cs" />
     <Compile Include="StaticClasses\Funcs\AtomFuncs.cs" />
     <Compile Include="StaticClasses\Funcs\CollectionFuncs.cs" />
     <Compile Include="StaticClasses\Funcs\HashMapFuncs.cs" />
@@ -134,7 +137,6 @@
     <Folder Include="Interfaces\IoC\ServiceBuses\" />
     <Folder Include="Interfaces\IoC\Services\" />
     <Folder Include="SealedClasses\" />
-    <Folder Include="DataTypes\Concurrent\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

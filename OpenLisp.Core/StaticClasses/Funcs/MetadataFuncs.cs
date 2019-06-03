@@ -1,4 +1,5 @@
 ﻿using OpenLisp.Core.AbstractClasses;
+using OpenLisp.Core.Attributes;
 using OpenLisp.Core.DataTypes;
 
 namespace OpenLisp.Core.StaticClasses.Funcs
@@ -20,5 +21,10 @@ namespace OpenLisp.Core.StaticClasses.Funcs
         /// instance that is the second parameter of the invocation.
         /// </summary>
         public static OpenLispFunc WithMeta = new OpenLispFunc(x => x[0].Copy().Meta = x[1]);
+
+        /// <summary>
+        /// Get the DocString and stick it in the Meta
+        /// </summary>
+        public static OpenLispFunc ReadDocString = new OpenLispFunc(x => x.Meta = RuntimeAttributeReader.GetDocStrings((OpenLispVal)x[0]));
     }
 }

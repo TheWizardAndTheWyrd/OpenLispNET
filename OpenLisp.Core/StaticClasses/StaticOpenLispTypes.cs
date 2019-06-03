@@ -2,6 +2,8 @@
 using DeepEqual.Syntax;
 using OpenLisp.Core.AbstractClasses;
 using OpenLisp.Core.DataTypes;
+using System.Collections.Generic;
+using DataStructures;
 
 namespace OpenLisp.Core.StaticClasses
 {
@@ -90,5 +92,32 @@ namespace OpenLisp.Core.StaticClasses
         /// Returns the instance of <see cref="OpenLispConstant"/> representing false.
         /// </summary>
         public static OpenLispConstant False = new OpenLispConstant("false");
+
+        /// <summary>
+        /// Returns a map of only Nil values.
+        /// </summary>
+        //public static OpenLispHashMap NilMap = new OpenLispHashMap(new OpenLispList(new List<OpenLispVal>() {Nil, Nil}));
+
+        /// <summary>
+        /// Returns and empty dictionary of <see cref="Dictionary{TKey, TValue}"/>
+        /// where TKey is <see cref="String"/> and TValue is <see cref="OpenLispVal"/>.
+        /// </summary>
+        public static Dictionary<string, OpenLispVal> EmptyDictionary = new Dictionary<string, OpenLispVal>();
+
+        /// <summary>
+        /// Returns an empty secondary dictionary of <see cref="Dictionary{TKey, TValue}"/>
+        /// where TKey is <see cref="OpenLispString"/> and TValue is <see cref="OpenLispVal"/>.
+        /// </summary>
+        public static Dictionary<OpenLispString, OpenLispVal> EmptySecondaryDictionary = new Dictionary<OpenLispString, OpenLispVal>();
+
+        /// <summary>
+        /// Returns an empty <see cref="ConcurrentSkipList{T}"/> where T is <see cref="OpenLispVal"/>.
+        /// </summary>
+        public static ConcurrentSkipList<OpenLispVal> EmptyConcurrentSkipList = new ConcurrentSkipList<OpenLispVal>();
+
+        /// <summary>
+        /// Returns an empty <see cref="List{T}"/> where T is <see cref="OpenLispVal"/>.
+        /// </summary>
+        public static List<OpenLispVal> EmpyListOpenLispVal = new List<OpenLispVal>();
     }
 }

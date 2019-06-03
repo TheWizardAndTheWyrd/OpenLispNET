@@ -13,7 +13,7 @@ namespace OpenLisp.Core.DataTypes
         /// <summary>
         /// Get or Set the Value of this <see cref="OpenLispAtom"/>.
         /// </summary>
-        public OpenLispVal Value
+        new public OpenLispVal Value
         {
             get
             {
